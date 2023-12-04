@@ -26,14 +26,21 @@ int main() {
     Cubes GreenCubes = {13, "green"};
     Cubes BlueCubes = {14, "blue"};
     
-    int sumIds = 0;
-    int counter = 1;
-    
     std::vector<Cubes> cubeVec;
     std::string str;
     bool skipIteration;
     
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    
+    int power = 0;
+    
     while(std::getline(Data, str,'\n')){
+        
+        red = 0;
+        green = 0;
+        blue = 0;
         
         std::replace(str.begin(), str.end(), ';', '\n');
         
@@ -42,22 +49,21 @@ int main() {
         
         for (int i = 0; i < cubeVec.size(); i++) {
             
-            skipIteration = (cubeVec[i].color == "red" && cubeVec[i].amount > RedCubes.amount) ||
-            (cubeVec[i].color == "green" && cubeVec[i].amount > GreenCubes.amount) ||
-            (cubeVec[i].color == "blue" && cubeVec[i].amount > BlueCubes.amount) ? true : false;
+            if(cubeVec[i].color == "red"){
+                if(red < cubeVec[i].amount) red = cubeVec[i].amount;
+            }
             
-            if (skipIteration) break;
+            if(cubeVec[i].color == "green"){
+                if(green < cubeVec[i].amount) green = cubeVec[i].amount;
+            }
+            
+            if(cubeVec[i].color == "blue"){
+                if(blue < cubeVec[i].amount) blue = cubeVec[i].amount;
+            }
         }
-        
-        if (skipIteration) {
-            counter++;
-            continue;
-        }else{
-            sumIds += counter;
-            counter++;
-        }
+        power += red*green*blue;
     }
-    std::cout << "The sum of the ids with possible games are: " << sumIds << std::endl;
+    std::cout << "The sum of the power: " << power << std::endl;
 }
 
 std::vector<Cubes> read_cube(std::string& str) {
@@ -79,3 +85,4 @@ std::vector<Cubes> read_cube(std::string& str) {
     }
     return cubeVec;
 }
+
